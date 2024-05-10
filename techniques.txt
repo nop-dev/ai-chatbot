@@ -1,0 +1,88 @@
+Técnicas que são boas práticas ao usar AI.
+
+Como criar um bom prompt:
+    https://aistudio.google.com/app/u/2/prompts/1A3omA3OLv4-ff41mwiayUa4U9XoD1PoJ (O proprio Gemini explicando como seria um prompt ideal)
+    https://ai.google.dev/gemini-api/docs/prompting-strategies?hl=pt-br&authuser=2 (Artigo do Goolge explicando melhor sobre design de prompts)
+
+    Zero Shot Prompting:
+    Prompt sem nenhum exemplo. Só fazer um pedido e receber uma resposta, sem dar nenhum exemplo/referência.
+
+    Pedido: Faça tal coisa
+    Resposta: Coisa feita
+
+    Few Shot Prompting:
+        Pedido: 
+            Pergunta: João tem 2 bolas azuis e 5 bolas vermelhas. Quantas bolas ele tem no total?
+            Resposta: João tem 7 bolas no total.
+
+            Pergunta: Marcos tem 42000 bolas amarelas e 2 bolas azuis, quantas bolas ele tem no total?
+            Resposta:
+
+        Resposta: Marcos tem 42002 bolas no total.
+
+    Resumindo, a idéia do Few Shot Prompting é que ele vai usar o meu exemplo, tanto a área do exemplo que eu passei como a forma que eu respondi, para completar a informação que eu ainda não tenho, a minha request. Isso prepara o model para responder da forma que eu quero, diminuindo a chance de ele fugir do assunto. Deixando o campo de Resposta da linha 19 vazio, ele compreende que ele tem que completar a linha.
+
+        Mais um exemplo de Few Shot Prompting:
+            Pedido:
+                    |    Inglês: Hello, how are you?
+                        Português: Olá, como você está?
+
+                        Inglês: I'm fine, and you?
+                        Português: Eu estou bem e você?
+
+                        Inglês: The wheater is very nice today.
+                        Português:
+
+                    Resposta:
+                        Português: O tempo está muito bom hoje.
+
+    Chain-Of-Thought + Few Shots:
+        Aqui, em resumo, a gente consegue ensinar a IA a "raciocinar" como raciocinaríamos em alguma situação.  Em vez de apenas passar um exemplo pra ele seguir, eu ensino ele a agir de certa forma e "pensar" da forma necessária. O filtro de segurança acontece quando ele não retorna algo de baixo-calão, mesmo que façamos o pedido de algo informal. Usando a Chain-Of-Thought
+
+        Paper do Google: https://arxiv.org/abs/2201.11903
+
+        Pedido:
+            Aja como um professor de português do Brasil. Vou te passar uma lista de palavras-chave e também exercicios que foram criados com base nessas palavras. Na sequência, vou te passar uma nova lista de palavras-chave, e você vai escolher algumas das mais relevantes e criar exercicios em português brasileiro (informal).
+                
+                LISTA DE PALAVRAS COM TRADUÇÃO
+                
+                legal - cool
+                desde - since
+                trabalhar - to work
+                
+                EXERCICIOS
+                1. Traduza: "Since then, I can't work anymore."
+                2. Complete: "Ele é um cara muito _____ (He's a very cool guy).
+                
+                LISTA DE PALAVRAS COM TRADUÇÃO
+
+                lembrar - to remember
+                resumir - to sum up
+                
+                EXERCICIOS
+
+            Resposta:
+
+                LISTA DE PALAVRAS COM TRADUÇÃO
+
+                lembrar - to remember
+                resumir - to sum up
+    
+                Exercícios:
+
+                1. Complete a frase: "Putz, não consigo ______ o nome dela!" (Shoot, I can't remember her name!)
+
+                2. Responda a pergunta: "Você pode ______ o que aconteceu na aula de ontem?" (Can you sum up what happened in yesterday's class?)
+
+                3. Crie uma frase usando as duas palavras: "Preciso ______ de ______ de levar o bolo pra festa amanhã" (I need to remember to bring the cake to the party tomorrow)
+
+                4. Situação: Você está conversando com um amigo sobre um filme que vocês assistiram juntos. Pergunte a ele se ele se lembra do nome do ator principal.
+
+                5. Situação: Você faltou a aula e precisa saber o que foi dado. Peça para um colega resumir a matéria
+
+    Outras Técnicas:
+        Least-To-Most-Prompting
+            Você manda um prompt grande e pede pra IA dividir em pequenos pontos antes de dar a resposta.
+
+        Self-Consistency
+            Mandar o mesmo prompt, várias vezes, tipo, 10 vezes, e cada vez ele vai dar um valor diferente. Então falar pra IA avaliar o que mais se repitiu nas respostas, e ela vai aprender a dar uma resposta mais consistente. Com isso reduz a chance de ele alucinar, ele não vai alucinar 10 vezes. E caso ele não consiga formar consistência, ele avisa que aquele resultado pode não ser consistente.
